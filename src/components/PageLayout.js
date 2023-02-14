@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function PageLayout({ children, title = "NewsApp" }) {
@@ -13,15 +14,18 @@ export default function PageLayout({ children, title = "NewsApp" }) {
         />
         <link rel="icon" href="/public/favicon.ico" />
       </Head>
-      <header>🗞️ newsApi</header>
+      <header>
+        <Link href="/">🗞️ newsApi</Link>
+        <Link href="/about">Ir a About</Link>
+      </header>
       <main>{children}</main>
       <style jsx>{`
         header {
-          padding: 20px;
+          padding: 30px;
+          display: flex;
+          justify-content: space-between;
         }
       `}</style>
     </>
   );
 }
-
-

@@ -1,5 +1,5 @@
 import PageLayout from "@/components/pageLayout";
-import Link from "next/link";
+import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 
 export default function Home({ articles }) {
@@ -12,16 +12,17 @@ export default function Home({ articles }) {
             articles.map((article, index) => {
               return (
                 <div key={index}>
-                  <img
+                  <Image
                     alt={`Image for the article ${article.tile}`}
                     src={article.urlToImage}
+                    height={300}
+                    width={200}
                   />
                   <h3>{article.title}</h3>
                   <p>{article.description}</p>
                 </div>
               );
             })}
-          <Link href="/about">Ir a About</Link>
         </div>
         <style jsx>{`
           div {
@@ -33,7 +34,8 @@ export default function Home({ articles }) {
   );
 }
 
-export async function getServerSideProps() {
+//N request -> se ejecuta 1 vez en build time (o para refrescar la página)
+export async function getStaticProps() {
   const response = await fetch(
     "https://newsapi.org/v2/everything?q=apple&from=2023-02-13&to=2023-02-13&sortBy=popularity&apiKey=fd7badad2728461a8b7bbc992e090288"
   );
@@ -44,3 +46,18 @@ export async function getServerSideProps() {
     },
   };
 }
+
+// N request -> se ejecuta N veces
+// para datos que necesitas que sean MUY live
+// porque tiene demasiado datos dinámicos
+// export async function getServerSideProps() {
+//   const response = await fetch(
+//     "https://newsapi.org/v2/everything?q=apple&from=2023-02-13&to=2023-02-13&sortBy=popularity&apiKey=fd7badad2728461a8b7bbc992e090288"
+//   );
+//   const { articles } = await response.json();
+//   return {
+//     props: {
+//       articles,
+//     },
+//   };
+// }
